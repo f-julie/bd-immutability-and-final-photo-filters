@@ -19,7 +19,13 @@ public class GreyscaleConverter implements PrimePhotoConverter {
 
         for (Pixel pixel : image.getPixels()) {
             RGB rgb = pixel.getRGB();
-            rgb.toGreyScale();
+
+            // Change the values in RGB object to grey scale
+            // This was okay before we made the data immutable
+            // toGreyScale() used to just change the values in the RGB object
+            // toGreyScale now returns a new RGB object with the changes
+            //rgb.toGreyScale(); // Replaced by storing the result from toGreyScale back into RGB object
+            rgb = rgb.toGreyScale(); // Replace our RGB object with the new RGB object that toGreyScale returns
             pixels.add(new Pixel(pixel.getX(), pixel.getY(), rgb));
         }
 

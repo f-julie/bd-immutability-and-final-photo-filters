@@ -1,30 +1,42 @@
 package com.amazon.ata.immutabilityandfinal.classroom.primephoto.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 /**
  * A class representing a PrimePhoto - contains dimensions, and a list of Pixels that make up the image.
  */
-public class PrimePhoto {
-    private List<Pixel> pixels;
-    private int height;
-    private int width;
+// 1. Make this class immutable
+// 2. Make instance variables final
+// 3. Check constructors for reference parameters and replace assignments with defensive copy
+// 4. Make sure any references returned are defensive returns (return copy of the data)
+// 5. Ensure there are no setters in the class (this one doesn't have any)
+// 6. Modify existing code so no instance variables are changed (fix compile errors due to making them final)
+public final class PrimePhoto {
+    private final List<Pixel> pixels;
+    private final int height;
+    private final int width;
     // used when saving to a buffered image
-    private int type;
+    private final int type;
 
+    // Constructor contains a reference parameter - List is an object which is a reference - defensive copy it
     public PrimePhoto(List<Pixel> pixelList, int height, int width, int type) {
         if (pixelList.size() != (height * width)) {
             throw new IllegalArgumentException("Not enough pixels for the dimensions of the image.");
         }
-        this.pixels = pixelList;
+        //this.pixels = pixelList; // Replaced by defensive copy
+        this.pixels = new ArrayList<>(pixelList); // Copy the parameter into our instance variable
+
         this.height = height;
         this.width = width;
         this.type = type;
     }
 
+    // This returns a reference - List is an object which is a reference - defensive return
     public List<Pixel> getPixels() {
-        return pixels;
+        //return pixels; // Replaced with defensive return
+        return new ArrayList<>(pixels); // Return a copy of our instance data (protecting our data)
     }
 
     public int getHeight() {
